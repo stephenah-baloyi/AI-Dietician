@@ -75,18 +75,14 @@ public class MealPlanController {
 	}
 
 	// update MealPlan details
-	/*@PutMapping("/updateMealPlan/{id}")
+	@PutMapping("/updateMealPlan/{id}")
 	public ResponseEntity<MealPlan> updateMealPlan(@PathVariable("id") Long id, @RequestBody MealPlan mealDetails) {
 		MealPlan mealPlan = mealPlanRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Food does not exist with id :" + id));
-
-		food.setFood_name(foodDetails.getFood_name());
-		food.setMeal_type(foodDetails.getMeal_type());
-		food.setFood_calories(foodDetails.getFood_calories());
 		
-		Food updatedFood = foodRepository.save(food);
-		return ResponseEntity.ok(updatedFood);
-	}*/
+		MealPlan updatedMeal = mealPlanRepository.save(mealPlan);
+		return ResponseEntity.ok(updatedMeal);
+	}
 
 	// delete MealPlan
 	@DeleteMapping("/deleteMealPlan/{id}")
