@@ -1,9 +1,6 @@
 package com.dietplan.artificialintelligencedietician.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,17 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dietplan.artificialintelligencedietician.model.User;
 import com.dietplan.artificialintelligencedietician.repository.UserRepository;
 import com.dietplan.artificialintelligencedietician.service.ResourceNotFoundException;
-import com.dietplan.artificialintelligencedietician.service.UserService;
+import com.dietplan.artificialintelligencedietician.service.Services;
 
 @RestController
-@RequestMapping("/app/")
+@RequestMapping("/app")
 public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
 	
 	@Autowired
-	private UserService userService;
+	private Services userService;
 	
 		// create user
 		@PostMapping("/register")
@@ -62,7 +59,7 @@ public class UserController {
 				
 		// update user details		
 		@PutMapping("/updateUser/{id}")
-		public ResponseEntity<User> updateEmployee(@PathVariable("id") Long id, @RequestBody User userDetails){
+		public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User userDetails){
 			User user = userRepository.findById(id)
 					.orElseThrow(() -> new ResourceNotFoundException("User does not exist with id :" + id));
 			
@@ -109,6 +106,16 @@ public class UserController {
 		}
 		
 		//Calculate BMI
-		
+		@PutMapping("/getBMI/{id}")
+		public ResponseEntity<User> calculateBMI(@PathVariable("id") Long id, @RequestBody User BMI){
+			User user = userRepository.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("User does not exist with id :" + id));
+						
+			user.setBMI(userService.calculateBMI(BMI.getWeight(), BMI.getHeight()));
+			
+			User userBMI = userRepository.save(user);
+			return ResponseEntity.ok(userBMI);
+			
+		}
 
 }

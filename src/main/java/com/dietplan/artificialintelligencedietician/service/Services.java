@@ -7,7 +7,7 @@ import com.dietplan.artificialintelligencedietician.model.User;
 import com.dietplan.artificialintelligencedietician.repository.UserRepository;
 
 @Service
-public class UserService {
+public class Services {
 	
 	@Autowired
 	private UserRepository repo;
